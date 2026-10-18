@@ -1,17 +1,18 @@
-using System;
 using UnityEngine;
 
-
-namespace Beginner2D
+public class CameraFollow : MonoBehaviour
 {
-    /// <summary>
-    /// DEMO purpose only, will set the confiner layer as we need to keep the layer setting empty for the tutorial
-    /// </summary>
-    public class CameraConfinerLayerSetter : MonoBehaviour
+    public Transform target; // Наш Ducko
+    public float smoothSpeed = 5.0f;
+    public Vector3 offset = new Vector3(0, 0, -10f); // Тримаємо Z координату камери (-10)
+
+    void LateUpdate()
     {
-        private void OnEnable()
+        if (target != null)
         {
-            Helpers.RecursiveLayerSet(transform, Helpers.ConfinerLayer);
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+            transform.position = smoothedPosition;
         }
     }
 }
