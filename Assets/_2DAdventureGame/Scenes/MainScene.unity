@@ -5592,6 +5592,8 @@ MonoBehaviour:
   timeInvincible: 2
   projectilePrefab: {fileID: 2316495213770090450, guid: 2bff080c9b8e6c94a99d166fe48c51db,
     type: 3}
+  hitEffectPrefab: {fileID: 815704136855959780, guid: 17da090cbd3ec504ba4da073aa459073,
+    type: 3}
 --- !u!1 &1482403983 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1508599668260581305, guid: d626a449946940a4c8068c5b3d05dcde,
