@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 3.0f;
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
+    float damageCooldown;
     public GameObject projectilePrefab;
     public GameObject hitEffectPrefab;
 
@@ -76,19 +77,16 @@ public class PlayerController : MonoBehaviour
         if (amount < 0)
         {
             if (isInvincible)
-                return;
-
-            isInvincible = true;
-            invincibleTimer = timeInvincible;
-
-            if (hitEffectPrefab != null)
             {
-                Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+                return;
             }
+            isInvincible = true;
+            damageCooldown = timeInvincible;
+            animator.SetTrigger("Hit");
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log("Health: " + currentHealth + "/" + maxHealth);
+        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
     }
 
     void Launch()
