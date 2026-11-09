@@ -1,74 +1,115 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 3.0f;
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
-    float damageCooldown;
+
     public GameObject projectilePrefab;
     public GameObject hitEffectPrefab;
 
-    int currentHealth;
+    public InputAction MoveAction;
+    public InputAction LaunchAction;
+    public InputAction TalkAction;
+
+    private Rigidbody2D rigidbody2d;
+    private Animator animator;
+    private Vector2 moveDirection = new Vector2(1, 0);
+    private Vector2 currentInput;
+
+    private int currentHealth;
     public int health => currentHealth;
 
-    bool isInvincible;
-    float invincibleTimer;
+    private bool isInvincible;
+    private float damageCooldown;
 
-    Rigidbody2D rigidbody2d;
-    Animator animator;
-
-    Vector2 moveDirection = new Vector2(1, 0);
-    Vector2 lookDirection = new Vector2(1, 0);
+    private NonPlayerCharacter lastNonPlayerCharacter;
 
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         currentHealth = maxHealth;
+
+        MoveAction.Enable();
+        LaunchAction.Enable();
+        TalkAction.Enable();
     }
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector2 move = new Vector2(horizontal, vertical);
+        // Отримання руху
+        Vector2 move = MoveAction.ReadValue<Vector2>();
 
         if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
         {
-            lookDirection.Set(move.x, move.y);
-            lookDirection.Normalize();
+            moveDirection.Set(move.x, move.y);
+            moveDirection.Normalize();
         }
 
-        moveDirection = move;
+        currentInput = move;
 
-        if (animator != null)
-        {
-            animator.SetFloat("Look X", lookDirection.x);
-            animator.SetFloat("Look Y", lookDirection.y);
-            animator.SetFloat("Speed", move.magnitude);
-        }
+        animator.SetFloat("Look X", moveDirection.x);
+        animator.SetFloat("Look Y", moveDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
 
+        // Таймер невразливості
         if (isInvincible)
         {
-            invincibleTimer -= Time.deltaTime;
-            if (invincibleTimer < 0)
+            damageCooldown -= Time.deltaTime;
+            if (damageCooldown < 0)
+            {
                 isInvincible = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Fire1"))
+        // Запуск шестерні (C)
+        if (LaunchAction.WasPressedThisFrame())
         {
             Launch();
+        }
+
+        // Перевірка NPC променем (Raycast)
+        RaycastHit2D hit = Physics2D.Raycast(
+            rigidbody2d.position + Vector2.up * 0.2f,
+            moveDirection,
+            1.5f,
+            LayerMask.GetMask("NPC")
+        );
+
+        if (hit.collider != null)
+        {
+            NonPlayerCharacter npc = hit.collider.GetComponent<NonPlayerCharacter>();
+            if (npc != null)
+            {
+                if (npc.dialogueBubble != null)
+                {
+                    npc.dialogueBubble.SetActive(true);
+                }
+                lastNonPlayerCharacter = npc;
+            }
+            FindFriend();
+        }
+        else
+        {
+            if (lastNonPlayerCharacter != null)
+            {
+                if (lastNonPlayerCharacter.dialogueBubble != null)
+                {
+                    lastNonPlayerCharacter.dialogueBubble.SetActive(false);
+                }
+                lastNonPlayerCharacter = null;
+            }
         }
     }
 
     void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
-        position.x = position.x + speed * moveDirection.x * Time.deltaTime;
-        position.y = position.y + speed * moveDirection.y * Time.deltaTime;
-
+        position += currentInput * speed * Time.fixedDeltaTime;
         rigidbody2d.MovePosition(position);
     }
 
@@ -76,17 +117,18 @@ public class PlayerController : MonoBehaviour
     {
         if (amount < 0)
         {
-            if (isInvincible)
-            {
-                return;
-            }
+            if (isInvincible) return;
             isInvincible = true;
             damageCooldown = timeInvincible;
             animator.SetTrigger("Hit");
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+
+        if (UIHandler.instance != null)
+        {
+            UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+        }
     }
 
     void Launch()
@@ -97,19 +139,29 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Спавнимо снаряд трохи попереду персонажа за напрямком погляду
-        Vector2 spawnPos = rigidbody2d.position + lookDirection * 0.8f + Vector2.up * 0.2f;
-        GameObject projectileObject = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        GameObject projectileObject = Instantiate(
+            projectilePrefab,
+            rigidbody2d.position + Vector2.up * 0.5f,
+            Quaternion.identity
+        );
 
         Projectile projectile = projectileObject.GetComponent<Projectile>();
         if (projectile != null)
         {
-            projectile.Launch(lookDirection, 300f);
+            projectile.Launch(moveDirection, 300);
         }
 
-        if (animator != null)
+        animator.SetTrigger("Launch");
+    }
+
+    void FindFriend()
+    {
+        if (TalkAction.WasPressedThisFrame())
         {
-            animator.SetTrigger("Launch");
+            if (UIHandler.instance != null)
+            {
+                UIHandler.instance.DisplayDialogue();
+            }
         }
     }
 }
