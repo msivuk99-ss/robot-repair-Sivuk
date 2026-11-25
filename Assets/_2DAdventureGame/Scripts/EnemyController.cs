@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float speed = 3.0f;
-    public bool vertical = true;
+    public float speed = 1.0f;
+    public bool vertical;
     public float changeTime = 3.0f;
+    public ParticleSystem smokeEffect;
 
-    Rigidbody2D rigidbody2d;
+    new Rigidbody2D rigidbody2D;
     Animator animator;
-
     float timer;
     int direction = 1;
     bool broken = true;
 
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         timer = changeTime;
     }
@@ -43,32 +43,31 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        Vector2 position = rigidbody2d.position;
+        Vector2 position = rigidbody2D.position;
 
         if (vertical)
         {
-            position.y = position.y + Time.deltaTime * speed * direction;
-            if (animator != null)
-            {
-                animator.SetFloat("Move X", 0);
-                animator.SetFloat("Move Y", direction);
-            }
+            position.y = position.y + speed * direction * Time.deltaTime;
+            animator.SetFloat("Move X", 0);
+            animator.SetFloat("Move Y", direction);
         }
         else
         {
-            position.x = position.x + Time.deltaTime * speed * direction;
-            if (animator != null)
-            {
-                animator.SetFloat("Move X", direction);
-                animator.SetFloat("Move Y", 0);
-            }
+            position.x = position.x + speed * direction * Time.deltaTime;
+            animator.SetFloat("Move X", direction);
+            animator.SetFloat("Move Y", 0);
         }
 
-        rigidbody2d.MovePosition(position);
+        rigidbody2D.MovePosition(position);
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
+        if (!broken)
+        {
+            return;
+        }
+
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
 
         if (player != null)
@@ -80,12 +79,12 @@ public class EnemyController : MonoBehaviour
     public void Fix()
     {
         broken = false;
-        rigidbody2d.simulated = false;
+        rigidbody2D.simulated = false;
+        animator.SetTrigger("Fixed");
 
-        if (animator != null)
+        if (smokeEffect != null)
         {
-            animator.SetTrigger("Fixed");
+            smokeEffect.Stop();
         }
     }
 }
-
