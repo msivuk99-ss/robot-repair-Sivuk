@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b91a2a006ec278428ab9c0902986dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthCollectible
-  healAmount: 1
+  amount: 1
 --- !u!212 &157238626
 SpriteRenderer:
   serializedVersion: 2
@@ -5448,6 +5448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e6a07322502ea4fb252fe89272842a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Beginner2D.DamageZone
+  damage: 1
 --- !u!50 &826715332
 Rigidbody2D:
   serializedVersion: 5
@@ -5831,6 +5832,74 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
     m_Priority: 0
+--- !u!1001 &1227402457
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3648441090899245117, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyFast
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.560577
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1924195
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976936851988347571, guid: 8288aedfb66a99b4ea7fd17642b81ce8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8288aedfb66a99b4ea7fd17642b81ce8, type: 3}
 --- !u!1 &1482403983 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1508599668260581305, guid: d626a449946940a4c8068c5b3d05dcde,
@@ -6030,7 +6099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b91a2a006ec278428ab9c0902986dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthCollectible
-  healAmount: 1
+  amount: 1
 --- !u!212 &1699516054
 SpriteRenderer:
   serializedVersion: 2
@@ -6335,7 +6404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b91a2a006ec278428ab9c0902986dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthCollectible
-  healAmount: 1
+  amount: 1
 --- !u!61 &1936733990
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7060,12 +7129,12 @@ PrefabInstance:
     - target: {fileID: 1896993405390707333, guid: c7f1577c9ab1ad349adaf29aca7c67d2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.98
+      value: 4.08
       objectReference: {fileID: 0}
     - target: {fileID: 1896993405390707333, guid: c7f1577c9ab1ad349adaf29aca7c67d2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.66
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 1896993405390707333, guid: c7f1577c9ab1ad349adaf29aca7c67d2,
         type: 3}
@@ -7639,3 +7708,4 @@ SceneRoots:
   - {fileID: 1559695531}
   - {fileID: 3440592292948486007}
   - {fileID: 205503133}
+  - {fileID: 1227402457}
