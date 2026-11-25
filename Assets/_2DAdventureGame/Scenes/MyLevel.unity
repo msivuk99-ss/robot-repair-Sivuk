@@ -7025,12 +7025,12 @@ PrefabInstance:
     - target: {fileID: 310582790776453025, guid: 42d0c4f9bd4e84144b7ce629ec914869,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.47
+      value: 1.33
       objectReference: {fileID: 0}
     - target: {fileID: 310582790776453025, guid: 42d0c4f9bd4e84144b7ce629ec914869,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.72
+      value: 5.91
       objectReference: {fileID: 0}
     - target: {fileID: 310582790776453025, guid: 42d0c4f9bd4e84144b7ce629ec914869,
         type: 3}
@@ -7077,6 +7077,11 @@ PrefabInstance:
       propertyPath: door
       value: 
       objectReference: {fileID: 1445437483}
+    - target: {fileID: 885909694764909212, guid: 42d0c4f9bd4e84144b7ce629ec914869,
+        type: 3}
+      propertyPath: openTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4275277990719161798, guid: 42d0c4f9bd4e84144b7ce629ec914869,
         type: 3}
       propertyPath: m_Name
