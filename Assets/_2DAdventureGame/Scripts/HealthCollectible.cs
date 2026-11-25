@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HealthCollectible : MonoBehaviour
 {
-    public int healAmount = 1;
+    public int amount = 1;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -10,7 +10,7 @@ public class HealthCollectible : MonoBehaviour
 
         if (controller != null && controller.health < controller.maxHealth)
         {
-            controller.ChangeHealth(healAmount);
+            controller.ChangeHealth(amount);
             Destroy(gameObject);
         }
     }
