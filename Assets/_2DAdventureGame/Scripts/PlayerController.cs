@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+
+
         currentHealth = maxHealth;
 
         MoveAction.Enable();
